@@ -7,17 +7,18 @@
 
 `go mod init github.com/codeworkshop-dev/go-web-services`
 
+## AHello World GO Program
+
 ## Using the http package
 
 ## First request handler
 
-## Http Templates
+## Using a more robust router.
 
-## Handling POST requests
-
-## Using an In Memory Database
 
 ## Creating REST End Points
+
+## Using an in memory database
 
 ## Next Steps
 * Advanced Routing
