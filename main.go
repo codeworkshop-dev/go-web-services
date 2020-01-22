@@ -11,6 +11,8 @@ import (
 )
 
 func main() {
+
+	// Setup the database and close when main thread exits.
 	db, err := bolt.Open("my.db", 0600, nil)
 	if err != nil {
 		log.Fatal(err)
@@ -18,6 +20,7 @@ func main() {
 	defer db.Close()
 	r := NewRouter()
 
+	// Create http server and run.
 	srv := &http.Server{
 		Handler: r,
 		Addr:    "127.0.0.1:8000",
@@ -35,12 +38,15 @@ REST Handlers
 
 // TweetList returns a list of tweet structs.
 func TweetList(w http.ResponseWriter, r *http.Request) {
-	todos := Tweets{
+	tweets := Tweets{
 		Tweet{UserName: "CodeWorkshop", Created: time.Now(), Content: "Some big polar bears hear at the north pole today"},
 		Tweet{UserName: "CodeWorkshop", Created: time.Now(), Content: "Saw over 5000 penguins, nothing new to report."},
 	}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 
-	if err := json.NewEncoder(w).Encode(todos); err != nil {
+	// Try to encode tweets as json and write to ResponseWriter. Panic if this returns an error.
+	if err := json.NewEncoder(w).Encode(tweets); err != nil {
 		panic(err)
 	}
 }
@@ -48,6 +54,8 @@ func TweetList(w http.ResponseWriter, r *http.Request) {
 //TweetDetail returns a single tweet.
 func TweetDetail(w http.ResponseWriter, r *http.Request) {
 	tweet := Tweet{UserName: "CodeWorkshop", Created: time.Now(), Content: "Some big polar bears here at the north pole today"}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(tweet); err != nil {
 		panic(err)
 	}
@@ -55,12 +63,13 @@ func TweetDetail(w http.ResponseWriter, r *http.Request) {
 
 // TweetCreate creates a new tweet and returns it.
 func TweetCreate(w http.ResponseWriter, r *http.Request) {
-	todos := Tweets{
+	tweets := Tweets{
 		Tweet{UserName: "CodeWorkshop", Created: time.Now(), Content: "Some big polar bears here at the north pole today"},
 		Tweet{UserName: "CodeWorkshop", Created: time.Now(), Content: "Saw over 5000 penguins, nothing new to report."},
 	}
-
-	if err := json.NewEncoder(w).Encode(todos); err != nil {
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(tweets); err != nil {
 		panic(err)
 	}
 }
@@ -68,6 +77,8 @@ func TweetCreate(w http.ResponseWriter, r *http.Request) {
 //TweetUpdate updates a tweet.
 func TweetUpdate(w http.ResponseWriter, r *http.Request) {
 	tweet := Tweet{UserName: "CodeWorkshop", Created: time.Now(), Content: "Some big polar bears here at the north pole today"}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(tweet); err != nil {
 		panic(err)
 	}
@@ -76,6 +87,8 @@ func TweetUpdate(w http.ResponseWriter, r *http.Request) {
 //TweetDelete updates a tweet.
 func TweetDelete(w http.ResponseWriter, r *http.Request) {
 	tweet := Tweet{UserName: "CodeWorkshop", Created: time.Now(), Content: "Some big polar bears here at the north pole today"}
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(tweet); err != nil {
 		panic(err)
 	}
@@ -84,6 +97,7 @@ func TweetDelete(w http.ResponseWriter, r *http.Request) {
 /*
 Register handlers with the router.
 */
+
 // NewRouter returns a mux router for our app.
 func NewRouter() *mux.Router {
 	// Create a new mux router
