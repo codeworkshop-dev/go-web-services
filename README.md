@@ -7,7 +7,7 @@
 
 `go mod init github.com/codeworkshop-dev/go-web-services`
 
-## AHello World GO Program
+## A Hello World GO Program
 
 ## Using the http package
 
